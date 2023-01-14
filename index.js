@@ -4,7 +4,7 @@
 // init project
 var express = require('express');
 var app = express();
-
+const PORT = process.env.PORT || 3001
 // enable CORS (https://en.wikipedia.org/wiki/Cross-origin_resource_sharing)
 // so that your API is remotely testable by FCC 
 var cors = require('cors');
@@ -26,7 +26,22 @@ app.get("/api/hello", function (req, res) {
 
 
 
-// listen for requests :)
-var listener = app.listen(process.env.PORT, function () {
-  console.log('Your app is listening on port ' + listener.address().port);
-});
+// // listen for requests :)
+// var listener = app.listen(process.env.PORT, function () {
+//   console.log('Your app is listening on port ' + listener.address().port);
+// });
+
+
+let responseOBJECT = {}
+app.get('/api/timestamp/:input', (req, res) => {
+  let input = req.params.input
+if(input.includes('-'))
+
+  res.json(input)
+})
+
+
+
+app.listen(PORT, () => {
+  console.log(`Server is up and running on port ${PORT}`)
+})

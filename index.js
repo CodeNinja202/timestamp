@@ -36,8 +36,8 @@ let responseOBJECT = {}
 app.get('/api/:input', (req, res) => {
   let input = req.params.input
 if(input.includes('-')){
-  responseOBJECT['unix'] = new Date(input).getTime()
-  responseOBJECT['utc'] = new Date(input).toUTCString()
+  responseOBJECT['unix'] = input;
+  responseOBJECT['utc'] = new Date(input*1000).toUTCString()
 } else{
   input = parseInt(input)
   responseOBJECT['unix'] = new Date(input).getTime()

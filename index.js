@@ -33,13 +33,28 @@ app.get("/api/hello", function (req, res) {
 
 
 let responseOBJECT = {}
-app.get('/api/timestamp/:input', (req, res) => {
+app.get('/api/:input', (req, res) => {
   let input = req.params.input
-if(input.includes('-'))
+if(input.includes('-')){
+  responseOBJECT['unix'] = new Date(input).getTime()
+  responseOBJECT['utc'] = new Date(input).toUTCString()
+} else{
+  input = parseInt(input)
+  responseOBJECT['unix'] = new Date(input).getTime()
+}
 
-  res.json(input)
+if(!responseOBJECT['unix'] || !responseOBJECT['utc']){
+  res.json({ error: 'Invalid Date'})
+}
+
+  res.json(responseOBJECT)
 })
 
+app.get('/api', (req, res) => {
+  responseOBJECT['unix'] = new Date().getTime()
+  responseOBJECT['utc'] = new Date().toUTCString()
+  res.json(responseOBJECT)
+})
 
 
 app.listen(PORT, () => {

@@ -25,40 +25,30 @@ app.get("/api/hello", function (req, res) {
 });
 
 
-
-// // listen for requests :)
-// var listener = app.listen(process.env.PORT, function () {
-//   console.log('Your app is listening on port ' + listener.address().port);
-// });
-
-
 let responseOBJECT = {}
 app.get('/api/:input', (req, res) => {
-  let input = req.params.input
-  input = parseInt(input);
+  let input = req.params.input;
+  let date = new Date(input);
+  if (isNaN(date.getTime())) {
+    date = new Date(parseInt(input));
+  }
 
-if(input.includes('-')){
-  responseOBJECT['unix'] = input;
-  responseOBJECT['utc'] = new Date(input).toUTCString()
-} else{
-  input = parseInt(input)
-  responseOBJECT['unix'] = new Date(input).getTime()
-}
-
-if(!responseOBJECT['unix'] || !responseOBJECT['utc']){
-  res.json({ error: 'Invalid Date'})
-}
-
-  res.json(responseOBJECT)
-})
+  if(isNaN(date.getTime())){
+    res.json({ error: 'Invalid Date'});
+  }else{
+    responseOBJECT['unix'] = date.getTime();
+    responseOBJECT['utc'] = date.toUTCString();
+    res.json(responseOBJECT);
+  }
+});
 
 app.get('/api', (req, res) => {
-  responseOBJECT['unix'] = new Date().getTime()
-  responseOBJECT['utc'] = new Date().toUTCString()
-  res.json(responseOBJECT)
-})
+  responseOBJECT['unix'] = new Date().getTime();
+  responseOBJECT['utc'] = new Date().toUTCString();
+  res.json(responseOBJECT);
+});
 
 
 app.listen(PORT, () => {
-  console.log(`Server is up and running on port ${PORT}`)
-})
+  console.log(`Server is up and running on port ${PORT}`);
+});

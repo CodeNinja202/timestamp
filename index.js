@@ -1,6 +1,6 @@
 // index.js
 // where your node app starts
-
+const { JWT_SECRET } = process.env;
 // init project
 var express = require('express');
 var app = express();
